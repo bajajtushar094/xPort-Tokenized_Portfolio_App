@@ -8,6 +8,7 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
+const mainRouter = require("./routes/MainRoutes");
 
 const app = express();
 
@@ -19,7 +20,7 @@ mongoose
 		console.log("Database Connected");
 	})
 	.catch((err) => {
-		console.log(err.message);
+        console.log("Database not connected: "+err.message)
 	});
 
 app.use(cors());
@@ -53,8 +54,10 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.use("/", mainRouter);
+
+app.listen(process.env.PORT || 5000, () => {
 	console.log(
-		`Server started on http://localhost${process.env.PORT || 3000}:`
+		`Server started on http://localhost${process.env.PORT || 5000}:`
 	);
 });
