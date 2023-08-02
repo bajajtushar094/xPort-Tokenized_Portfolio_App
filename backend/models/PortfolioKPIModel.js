@@ -1,6 +1,10 @@
 const { Schema, model } = require("mongoose");
 
 const PortfolioKPI = new Schema({
+	Portfolio:{
+		type: Schema.Types.ObjectId,
+		ref: "Portfolio"
+	},
 	kpi_name: {
 		type: String,
 		required: true,

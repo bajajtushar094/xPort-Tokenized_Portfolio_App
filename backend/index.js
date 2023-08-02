@@ -13,6 +13,7 @@ const mainRouter = require("./routes/MainRoutes");
 const app = express();
 
 dotenv.config();
+// require("./config/database").connect();
 
 mongoose
 	.connect(process.env.MONGO_URI || "mongodb://localhost:27017/xPort")

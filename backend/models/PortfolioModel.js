@@ -45,8 +45,14 @@ const Portfolio = new Schema({
 		required: true,
 		default: 0,
 	},
-	assets: [PortfolioAsset],
-	kpis: [PortfolioKPI],
+	assets: [{
+		type: Schema.Types.ObjectId,
+		ref: "Portfolio Asset"
+	}],
+	kpis: [{
+		type: Schema.Types.ObjectId,
+		ref: "Portfolio KPI"
+	}],
 });
 
 module.exports = model("portfolio", Portfolio);
