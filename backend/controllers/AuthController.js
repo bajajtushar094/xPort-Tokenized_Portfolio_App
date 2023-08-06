@@ -31,11 +31,12 @@ exports.register = async (req, res)=>{
             user.token = token;
 
             await user.save();
+            
             return apiResponse.successResponseWithData(req, res, "User Created", user);
         }
     }
     catch(err){
-        console.log("Error while registering User: "+ err.message);
+        console.log("Error while registering User: "+ err);
         return apiResponse.errorResponse(req, res, err.message);
     }
 }

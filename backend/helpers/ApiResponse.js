@@ -20,7 +20,7 @@ exports.successResponse = function (req, res, msg) {
       success: false,
       message: msg,
     };
-    return res.status(500).json(data);
+    return res.status(400).json(data);
   };
 
   exports.errorResponseWithData = function (req, res, msg, data) {
@@ -29,7 +29,7 @@ exports.successResponse = function (req, res, msg) {
       message: msg,
       data: data,
     };
-    return res.status(500).json(resData);
+    return res.status(400).json(resData);
   };
   
   exports.notFoundResponse = function (req, res, msg) {
