@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const UserPortfolioModel = new mongoose.Schema({
 	user: {
-		type: Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: "user",
 	},
 	portfolio: {
-		type: Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: "portfolio",
 	},
 });
