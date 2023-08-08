@@ -16,11 +16,11 @@ router.post(
 	AuthMiddleware.verifyToken,
 	PortfolioAdditionController.buyPortfolio
 );
+router.get("/:id", PortfolioAdditionController.getPortfolio);
 router.post(
-	"/edit/:id",
-	AuthController.verifyToken,
+	"/:id",
+	AuthMiddleware.verifyToken,
 	PortfolioAdditionController.editPortfolio
 );
-router.get("/:id", PortfolioAdditionController.getPortfolio);
 
 module.exports = router;
