@@ -31,6 +31,9 @@ const UserDetail = new Schema({
 		required: true,
 		default: false,
 	},
+	email: {
+		type: String,
+	},
 });
 
 module.exports = model("userDetail", UserDetail);
