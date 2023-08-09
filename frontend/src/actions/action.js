@@ -36,3 +36,28 @@ export const registerUserAPI = async (registerData, dispatch)=>{
         console.log("Error from Register User API: ", err);
     }
 }
+
+
+export const loginUserAPI = async (loginData, dispatch)=>{
+    try{
+        console.log("Register Data: ", loginData);
+        const response = await axios.post(
+            config().login,
+            loginData
+        );
+        
+        if(response.status==200){
+            try{
+                console.log("Response from login user api: ", response);
+            }
+            catch(err){
+                console.log("Error: ", err);
+            }
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from Register User API: ", err);
+    }
+} 

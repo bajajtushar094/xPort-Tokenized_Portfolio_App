@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, connect } from "react-redux";
 // Chakra imports
 import {
@@ -26,10 +26,11 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
-import { registerUserAPI } from "actions/action";
+import { registerUserAPI, loginUserAPI } from "actions/action";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const textColor = useColorModeValue("navy.700", "white");
 	const textColorSecondary = "gray.400";
 	const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
@@ -48,7 +49,19 @@ const SignIn = () => {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 
+	const [mobile, setMobile] = useState("");
+	const [password, setPassword] = useState("");
 
+	const signInUser = async () => {
+		const response = await loginUserAPI(
+			{mobile, password},
+			dispatch
+		);
+
+		if(response.status==200){
+			history.push("/admin/nft-marketplace");
+		}
+	}
 
 	// useEffect(() => { 
 	// 	const registerUser = async () => {
@@ -101,7 +114,7 @@ const SignIn = () => {
 					me="auto"
 					mb={{ base: "20px", md: "auto" }}
 				>
-					<Button
+					{/* <Button
 						fontSize="sm"
 						me="0px"
 						mb="26px"
@@ -124,7 +137,7 @@ const SignIn = () => {
 							or
 						</Text>
 						<HSeparator />
-					</Flex>
+					</Flex> */}
 					<FormControl>
 						<FormLabel
 							display="flex"
@@ -134,7 +147,7 @@ const SignIn = () => {
 							color={textColor}
 							mb="8px"
 						>
-							Email<Text color={brandStars}>*</Text>
+							Mobile<Text color={brandStars}>*</Text>
 						</FormLabel>
 						<Input
 							isRequired={true}
@@ -142,10 +155,13 @@ const SignIn = () => {
 							fontSize="sm"
 							ms={{ base: "0px", md: "0px" }}
 							type="email"
-							placeholder="mail@simmmple.com"
+							placeholder="Enter 10 digit mobile number"
 							mb="24px"
 							fontWeight="500"
 							size="lg"
+							onChange={(event)=>{
+								setMobile(event.target.value);
+							}}
 						/>
 						<FormLabel
 							ms="4px"
@@ -165,6 +181,9 @@ const SignIn = () => {
 								size="lg"
 								type={show ? "text" : "password"}
 								variant="auth"
+								onChange={(event)=>{
+									setPassword(event.target.value);
+								}}
 							/>
 							<InputRightElement display="flex" alignItems="center" mt="4px">
 								<Icon
@@ -210,6 +229,9 @@ const SignIn = () => {
 							w="100%"
 							h="50"
 							mb="24px"
+							onClick={()=>{
+								signInUser();
+							}}
 						>
 							Sign In
 						</Button>

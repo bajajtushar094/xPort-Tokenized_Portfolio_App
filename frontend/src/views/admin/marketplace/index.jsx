@@ -1,25 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
 import React from "react";
 
 // Chakra imports
@@ -64,7 +42,7 @@ export default function Marketplace() {
       {/* Main Fields */}
       <Grid
         mb='20px'
-        gridTemplateColumns={{ xl: "repeat(3, 1fr)", "2xl": "1fr 0.46fr" }}
+        gridTemplateColumns={{ xl: "repeat(1, 1fr)", "2xl": "1fr 0.46fr" }}
         gap={{ base: "20px", xl: "20px" }}
         display={{ base: "block", xl: "grid" }}>
         <Flex
@@ -79,7 +57,7 @@ export default function Marketplace() {
               direction={{ base: "column", md: "row" }}
               align={{ base: "start", md: "center" }}>
               <Text color={textColor} fontSize='2xl' ms='24px' fontWeight='700'>
-                Trending NFTs
+                Trending Portfolios
               </Text>
               <Flex
                 align='center'
@@ -91,24 +69,24 @@ export default function Marketplace() {
                   fontWeight='500'
                   me={{ base: "34px", md: "44px" }}
                   to='#art'>
-                  Art
+                  Stocks
                 </Link>
                 <Link
                   color={textColorBrand}
                   fontWeight='500'
                   me={{ base: "34px", md: "44px" }}
                   to='#music'>
-                  Music
+                  High Return
                 </Link>
                 <Link
                   color={textColorBrand}
                   fontWeight='500'
                   me={{ base: "34px", md: "44px" }}
                   to='#collectibles'>
-                  Collectibles
+                  Low Volatile
                 </Link>
                 <Link color={textColorBrand} fontWeight='500' to='#sports'>
-                  Sports
+                  All Weather
                 </Link>
               </Flex>
             </Flex>
@@ -232,7 +210,7 @@ export default function Marketplace() {
             </SimpleGrid>
           </Flex>
         </Flex>
-        <Flex
+        {/* <Flex
           flexDirection='column'
           gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}>
           <Card px='0px' mb='20px'>
@@ -297,7 +275,7 @@ export default function Marketplace() {
               price='0.91 ETH'
             />
           </Card>
-        </Flex>
+        </Flex> */}
       </Grid>
       {/* Delete Product */}
     </Box>
