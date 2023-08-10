@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { useDispatch, connect } from "react-redux";
 // Chakra imports
 import {
   Box,
@@ -33,10 +33,38 @@ import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
-export default function Marketplace() {
+import { registerUserAPI, loginUserAPI, getAllPortfolioAPI } from "actions/action";
+
+const Marketplace  = () => {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
+  const dispatch = useDispatch();
+  const [portfolios, setPortfolios] = useState([]);
+
+  	useEffect(() => { 
+    	const fetchPortfolios = async () => {
+    		const response = await getAllPortfolioAPI(
+    			dispatch
+    		);
+
+        console.log("Data from portfolio API: ", response.data);
+        // setPortfolios([...response.data.data]);
+        console.log(response.data.data);
+
+        var dummyArray = response.data.data;
+
+        setPortfolios(dummyArray);
+
+        console.log(portfolios);
+    	}
+
+      fetchPortfolios();
+
+      // setPortfolios([...array]);
+     }, []);
+
+
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
@@ -91,24 +119,17 @@ export default function Marketplace() {
               </Flex>
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
-              <NFT
+              {portfolios.map((portfolio)=>(
+                <NFT
                 name='Abstract Colors'
                 author='By Esthera Jackson'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
+                bidders={[]}
                 image={Nft1}
-                currentbid='0.91 ETH'
+                currentbid={portfolio.valuation}
                 download='#'
               />
-              <NFT
+              ))}
+              {/* <NFT
                 name='ETH AI Brain'
                 author='By Nick Wilson'
                 bidders={[
@@ -141,7 +162,7 @@ export default function Marketplace() {
                 image={Nft3}
                 currentbid='0.91 ETH'
                 download='#'
-              />
+              /> */}
             </SimpleGrid>
             <Text
               mt='45px'
@@ -281,3 +302,14 @@ export default function Marketplace() {
     </Box>
   );
 }
+
+
+const mapStateToProps = (state) => {
+	// console.log("State:", state);
+	return {
+		// To get the list of employee details from store
+		state: state,
+	};
+};
+
+export default connect(mapStateToProps, null)(Marketplace);

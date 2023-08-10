@@ -61,3 +61,24 @@ export const loginUserAPI = async (loginData, dispatch)=>{
         console.log("Error from Register User API: ", err);
     }
 } 
+
+export const getAllPortfolioAPI = async (dispatch) => {
+    try{
+        const response = await axios.get(
+            config().getAllPortfolio);
+
+        if(response.status==200){
+            try{
+                console.log("Response from getAllPortfolio API: ", response);
+            }
+            catch(err){
+                console.log("Error: ",err);
+            }
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from getAllPortfolio APIs: ", err);
+    }
+}

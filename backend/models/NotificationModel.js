@@ -6,14 +6,9 @@ const NotificationModel = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		users: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "user",
-			},
-		],
+		users: [],
 		portfolio: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Object,
 			ref: "portfolio",
 		},
 		createdOn: {

@@ -8,7 +8,8 @@ export const config = ()=>{
             'mobile':'6900616159',
             'password': 'password',
             'register':`${LOCAL_SERVER_URL}/auth/register/`,
-            'login':`${LOCAL_SERVER_URL}/auth/login`
+            'login':`${LOCAL_SERVER_URL}/auth/login`,
+            'getAllPortfolio':`${LOCAL_SERVER_URL}/portfolio`
         }
     }
 

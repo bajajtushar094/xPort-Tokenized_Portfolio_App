@@ -12,6 +12,8 @@ const User = new Schema({
 	token: {
 		type: String,
 	},
+	porfolios_owned: [],
+	portfolios_bought:{}
 });
 
 module.exports = model("user", User);
