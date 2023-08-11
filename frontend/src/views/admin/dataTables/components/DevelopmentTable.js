@@ -38,6 +38,8 @@ import {
 
 export default function DevelopmentTable(props) {
 	const { columnsData, tableData } = props;
+	// const columnsData = [];
+	// const tableData = [];
 
 	const columns = useMemo(() => columnsData, [columnsData]);
 	const data = useMemo(() => tableData, [tableData]);

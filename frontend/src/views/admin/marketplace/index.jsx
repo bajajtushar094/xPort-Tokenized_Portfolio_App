@@ -10,6 +10,7 @@ import {
   Text,
   useColorModeValue,
   SimpleGrid,
+  Icon,
 } from "@chakra-ui/react";
 
 // Custom components
@@ -34,35 +35,48 @@ import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTop
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
 import { registerUserAPI, loginUserAPI, getAllPortfolioAPI } from "actions/action";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { NavLink, useHistory } from "react-router-dom";
 
-const Marketplace  = () => {
+const Marketplace = (props) => {
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
   const dispatch = useDispatch();
   const [portfolios, setPortfolios] = useState([]);
 
-  	useEffect(() => { 
-    	const fetchPortfolios = async () => {
-    		const response = await getAllPortfolioAPI(
-    			dispatch
-    		);
+  // const { image, name, author, bidders, download, currentbid } = props;
+  const [like, setLike] = useState(false);
+  const textColorNFT = useColorModeValue("navy.700", "white");
+  const textColorBid = useColorModeValue("brand.500", "white");
+  const history = useHistory();
+  // const [portfolioSelected, setPortfolioSelected] = useState({});
 
-        console.log("Data from portfolio API: ", response.data);
-        // setPortfolios([...response.data.data]);
-        console.log(response.data.data);
+  const portfolioInsights = () => {
+    history.push("/admin/portfolio-insights");
+  }
 
-        var dummyArray = response.data.data;
+  useEffect(() => {
+    const fetchPortfolios = async () => {
+      const response = await getAllPortfolioAPI(
+        dispatch
+      );
 
-        setPortfolios(dummyArray);
+      console.log("Data from portfolio API: ", response.data);
+      // setPortfolios([...response.data.data]);
+      console.log(response.data.data);
 
-        console.log(portfolios);
-    	}
+      var dummyArray = response.data.data;
 
-      fetchPortfolios();
+      setPortfolios(dummyArray);
 
-      // setPortfolios([...array]);
-     }, []);
+      console.log(portfolios);
+    }
+
+    fetchPortfolios();
+
+    // setPortfolios([...array]);
+  }, []);
 
 
   return (
@@ -119,184 +133,120 @@ const Marketplace  = () => {
               </Flex>
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
-              {portfolios.map((portfolio)=>(
-                <NFT
-                name='Abstract Colors'
-                author='By Esthera Jackson'
-                bidders={[]}
-                image={Nft1}
-                currentbid={portfolio.valuation}
-                download='#'
-              />
+              {portfolios.map((portfolio) => (
+                //   <NFT
+                //   name={portfolio.name}
+                //   author={portfolio.tagline}
+                //   bidders={[]}
+                //   image={Nft1}
+                //   currentbid={portfolio.valuation}
+                //   download='#'
+                // />
+                <Card p='20px'>
+                  <Flex direction={{ base: "column" }} justify='center'>
+                    <Box mb={{ base: "20px", "2xl": "20px" }} position='relative'>
+                      <Button
+                        position='absolute'
+                        bg='white'
+                        _hover={{ bg: "whiteAlpha.900" }}
+                        _active={{ bg: "white" }}
+                        _focus={{ bg: "white" }}
+                        p='0px !important'
+                        top='14px'
+                        right='14px'
+                        borderRadius='50%'
+                        minW='36px'
+                        h='36px'
+                        onClick={() => {
+                          setLike(!like);
+                        }}>
+                        <Icon
+                          transition='0.2s linear'
+                          w='20px'
+                          h='20px'
+                          as={like ? IoHeart : IoHeartOutline}
+                          color='brand.500'
+                        />
+                      </Button>
+                    </Box>
+                    <Flex flexDirection='column' justify='space-between' h='100%'>
+                      <Flex
+                        justify='space-between'
+                        direction={{
+                          base: "row",
+                          md: "column",
+                          lg: "row",
+                          xl: "column",
+                          "2xl": "row",
+                        }}
+                        mb='auto'>
+                        <Flex direction='column'>
+                          <Text
+                            color={textColorNFT}
+                            fontSize={{
+                              base: "xl",
+                              md: "lg",
+                              lg: "lg",
+                              xl: "lg",
+                              "2xl": "md",
+                              "3xl": "lg",
+                            }}
+                            mb='5px'
+                            fontWeight='bold'
+                            me='14px'>
+                            {portfolio.name}
+                          </Text>
+                          <Text
+                            color='secondaryGray.600'
+                            fontSize={{
+                              base: "sm",
+                            }}
+                            fontWeight='400'
+                            me='14px'>
+                            {portfolio.tagline}
+                          </Text>
+                        </Flex>
+                      </Flex>
+                      <Flex
+                        align='start'
+                        justify='space-between'
+                        direction={{
+                          base: "row",
+                          md: "column",
+                          lg: "row",
+                          xl: "column",
+                          "2xl": "row",
+                        }}
+                        mt='25px'>
+                        <Text fontWeight='700' fontSize='sm' color={textColorBid}>
+                          Current Valuation: {portfolio.valuation}
+                        </Text>
+                          <Button
+                            variant='darkBrand'
+                            color='white'
+                            fontSize='sm'
+                            fontWeight='500'
+                            borderRadius='70px'
+                            px='24px'
+                            py='5px'
+                            onClick={() => {
+                              // setPortfolioSelected(portfolio);
+                              dispatch({
+                                type: "PORTFOLIO_INSIGHTS",
+                                portfolioInsight: portfolio
+                              })
+                              portfolioInsights();
+                            }}>
+                            Explore Portfolio
+                          </Button>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                </Card>
               ))}
-              {/* <NFT
-                name='ETH AI Brain'
-                author='By Nick Wilson'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft2}
-                currentbid='0.91 ETH'
-                download='#'
-              />
-              <NFT
-                name='Mesh Gradients '
-                author='By Will Smith'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft3}
-                currentbid='0.91 ETH'
-                download='#'
-              /> */}
-            </SimpleGrid>
-            <Text
-              mt='45px'
-              mb='36px'
-              color={textColor}
-              fontSize='2xl'
-              ms='24px'
-              fontWeight='700'>
-              Recently Added
-            </Text>
-            <SimpleGrid
-              columns={{ base: 1, md: 3 }}
-              gap='20px'
-              mb={{ base: "20px", xl: "0px" }}>
-              <NFT
-                name='Swipe Circles'
-                author='By Peter Will'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft4}
-                currentbid='0.91 ETH'
-                download='#'
-              />
-              <NFT
-                name='Colorful Heaven'
-                author='By Mark Benjamin'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft5}
-                currentbid='0.91 ETH'
-                download='#'
-              />
-              <NFT
-                name='3D Cubes Art'
-                author='By Manny Gates'
-                bidders={[
-                  Avatar1,
-                  Avatar2,
-                  Avatar3,
-                  Avatar4,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                  Avatar1,
-                ]}
-                image={Nft6}
-                currentbid='0.91 ETH'
-                download='#'
-              />
             </SimpleGrid>
           </Flex>
         </Flex>
-        {/* <Flex
-          flexDirection='column'
-          gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}>
-          <Card px='0px' mb='20px'>
-            <TableTopCreators
-              tableData={tableDataTopCreators}
-              columnsData={tableColumnsTopCreators}
-            />
-          </Card>
-          <Card p='0px'>
-            <Flex
-              align={{ sm: "flex-start", lg: "center" }}
-              justify='space-between'
-              w='100%'
-              px='22px'
-              py='18px'>
-              <Text color={textColor} fontSize='xl' fontWeight='600'>
-                History
-              </Text>
-              <Button variant='action'>See all</Button>
-            </Flex>
-
-            <HistoryItem
-              name='Colorful Heaven'
-              author='By Mark Benjamin'
-              date='30s ago'
-              image={Nft5}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='Abstract Colors'
-              author='By Esthera Jackson'
-              date='58s ago'
-              image={Nft1}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='ETH AI Brain'
-              author='By Nick Wilson'
-              date='1m ago'
-              image={Nft2}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='Swipe Circles'
-              author='By Peter Will'
-              date='1m ago'
-              image={Nft4}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='Mesh Gradients '
-              author='By Will Smith'
-              date='2m ago'
-              image={Nft3}
-              price='0.91 ETH'
-            />
-            <HistoryItem
-              name='3D Cubes Art'
-              author='By Manny Gates'
-              date='3m ago'
-              image={Nft6}
-              price='0.91 ETH'
-            />
-          </Card>
-        </Flex> */}
       </Grid>
       {/* Delete Product */}
     </Box>
@@ -305,11 +255,11 @@ const Marketplace  = () => {
 
 
 const mapStateToProps = (state) => {
-	// console.log("State:", state);
-	return {
-		// To get the list of employee details from store
-		state: state,
-	};
+  // console.log("State:", state);
+  return {
+    // To get the list of employee details from store
+    state: state,
+  };
 };
 
 export default connect(mapStateToProps, null)(Marketplace);

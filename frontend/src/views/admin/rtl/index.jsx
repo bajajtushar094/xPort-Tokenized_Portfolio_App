@@ -44,19 +44,19 @@ import {
   MdBarChart,
   MdFileCopy,
 } from "react-icons/md";
-import CheckTable from "views/admin/default/components/CheckTable";
-import ComplexTable from "views/admin/default/components/ComplexTable";
-import DailyTraffic from "views/admin/default/components/DailyTraffic";
-import PieCard from "views/admin/default/components/PieCard";
-import Tasks from "views/admin/default/components/Tasks";
-import TotalSpent from "views/admin/default/components/TotalSpent";
-import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
+import CheckTable from "views/admin/portfolio-insight/components/CheckTable";
+import ComplexTable from "views/admin/portfolio-insight/components/ComplexTable";
+import DailyTraffic from "views/admin/portfolio-insight/components/DailyTraffic";
+import PieCard from "views/admin/portfolio-insight/components/PieCard";
+import Tasks from "views/admin/portfolio-insight/components/Tasks";
+import TotalSpent from "views/admin/portfolio-insight/components/TotalSpent";
+import WeeklyRevenue from "views/admin/portfolio-insight/components/WeeklyRevenue";
 import {
   columnsDataCheck,
   columnsDataComplex,
-} from "views/admin/default/variables/columnsData";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+} from "views/admin/portfolio-insight/variables/columnsData";
+import tableDataCheck from "views/admin/portfolio-insight/variables/tableDataCheck.json";
+import tableDataComplex from "views/admin/portfolio-insight/variables/tableDataComplex.json";
 
 export default function UserReports() {
   // Chakra Color Mode
