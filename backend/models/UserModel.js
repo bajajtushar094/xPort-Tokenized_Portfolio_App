@@ -12,6 +12,12 @@ const User = new Schema({
 	token: {
 		type: String,
 	},
+	accountId:{
+		type: String,
+	},
+	privateKey: {
+		type: String,
+	},
 	porfolios_owned: [],
 	portfolios_bought:{}
 });

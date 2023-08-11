@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const UserModel = require("../models/UserModel");
 const apiResponse = require("../helpers/ApiResponse");
 const jwt = require("jsonwebtoken");
+const { createnewaccnt } = require("../hedera_controllers/Authentication");
 
 exports.register = async (req, res)=>{
     try{
@@ -29,6 +30,13 @@ exports.register = async (req, res)=>{
             );
 
             user.token = token;
+            
+            
+            const response = await createnewaccnt(mobile);
+            console.log("response from smart contracts: ", response);
+
+            user.accountId = response.AccountId;
+            user.privateKey = response.PrivateKey;
 
             await user.save();
             
