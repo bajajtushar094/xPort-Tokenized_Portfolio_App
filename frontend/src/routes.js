@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 
 // Admin Imports
-import MainDashboard from "views/admin/default";
+import PortfolioInsight from "views/admin/portfolio-insight";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
@@ -22,13 +22,13 @@ import Register from "views/auth/register";
 
 
 const adminRoutes = [
-  {
-    name: "Main Dashboard",
-    layout: "/admin",
-    path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
-  },
+  // {
+  //   name: "Main Dashboard",
+  //   layout: "/admin",
+  //   path: "/default",
+  //   icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+  //   component: MainDashboard,
+  // },
   {
     name: "NFT Marketplace",
     layout: "/admin",
@@ -99,7 +99,7 @@ const routes = [
     layout: "/admin",
     path: "/portfolio-insights",
     icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
+    component: PortfolioInsight,
   },
   {
     name: "Portfolio Addition",

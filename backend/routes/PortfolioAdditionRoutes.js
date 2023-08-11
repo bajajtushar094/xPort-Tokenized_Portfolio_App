@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/", PortfolioAdditionController.getAllPortfolio);
 router.post(
 	"/addPortfolio",
-	AuthMiddleware.verifyToken,
+	// AuthMiddleware.verifyToken,
 	PortfolioAdditionController.addPortfolio
 );
 router.post(
