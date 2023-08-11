@@ -1,10 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const User = new Schema({
-	email: {
-		type: String,
-		required: true,
-	},
 	password: {
 		type: String,
 		required: true,
@@ -13,6 +9,11 @@ const User = new Schema({
 		type: String,
 		required: true,
 	},
+	token: {
+		type: String,
+	},
+	porfolios_owned: [],
+	portfolios_bought:{}
 });
 
 module.exports = model("user", User);

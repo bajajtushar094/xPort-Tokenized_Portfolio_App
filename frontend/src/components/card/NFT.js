@@ -26,12 +26,12 @@ export default function NFT(props) {
     <Card p='20px'>
       <Flex direction={{ base: "column" }} justify='center'>
         <Box mb={{ base: "20px", "2xl": "20px" }} position='relative'>
-          <Image
+          {/* <Image
             src={image}
             w={{ base: "100%", "3xl": "100%" }}
             h={{ base: "100%", "3xl": "100%" }}
             borderRadius='20px'
-          />
+          /> */}
           <Button
             position='absolute'
             bg='white'
@@ -93,7 +93,7 @@ export default function NFT(props) {
                 {author}
               </Text>
             </Flex>
-            <AvatarGroup
+            {/* <AvatarGroup
               max={3}
               color={textColorBid}
               size='sm'
@@ -108,7 +108,7 @@ export default function NFT(props) {
               {bidders.map((avt, key) => (
                 <Avatar key={key} src={avt} />
               ))}
-            </AvatarGroup>
+            </AvatarGroup> */}
           </Flex>
           <Flex
             align='start'
@@ -122,7 +122,7 @@ export default function NFT(props) {
             }}
             mt='25px'>
             <Text fontWeight='700' fontSize='sm' color={textColorBid}>
-              Current Bid: {currentbid}
+              Current Valuation: {currentbid}
             </Text>
             <Link
               href={download}
@@ -141,7 +141,7 @@ export default function NFT(props) {
                 borderRadius='70px'
                 px='24px'
                 py='5px'>
-                Place Bid
+                Explore Portfolio
               </Button>
             </Link>
           </Flex>

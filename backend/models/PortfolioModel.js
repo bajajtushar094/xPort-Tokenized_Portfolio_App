@@ -31,9 +31,17 @@ const PortfolioKPI = new Schema({
 });
 
 const Portfolio = new Schema({
-	user: {
-		type: Schema.Types.ObjectId,
-		ref: "user",
+	// owner_user: {
+	// 	type: Object,
+	// 	ref: "user",
+	// },
+	// buyer_users: [],
+	name:{
+		type: String,
+		required: true
+	},
+	tagline:{
+		type:String
 	},
 	num_assets: {
 		type: Number,
@@ -45,8 +53,8 @@ const Portfolio = new Schema({
 		required: true,
 		default: 0,
 	},
-	assets: [PortfolioAsset],
-	kpis: [PortfolioKPI],
+	assets: [],
+	kpis: [],
 });
 
 module.exports = model("portfolio", Portfolio);

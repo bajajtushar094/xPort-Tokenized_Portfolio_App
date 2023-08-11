@@ -26,11 +26,11 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
-import { registerUserAPI, loginUserAPI } from "actions/action";
+import { registerUserAPI } from "actions/action";
 
-const SignIn = () => {
+const Register = (props) => {
 	const dispatch = useDispatch();
-	const history = useHistory();
+    const history = useHistory();
 	const textColor = useColorModeValue("navy.700", "white");
 	const textColorSecondary = "gray.400";
 	const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
@@ -49,21 +49,27 @@ const SignIn = () => {
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
 
+
 	const [mobile, setMobile] = useState("");
 	const [password, setPassword] = useState("");
 
-	const signInUser = async () => {
-		const response = await loginUserAPI(
+	const registerUser = async () => {
+        console.log("Mobile: ", mobile);
+        console.log("Password: ", password);
+		const response = await registerUserAPI(
 			{mobile, password},
 			dispatch
 		);
 
-		if(response.status==200){
-			history.push("/admin/nft-marketplace");
-		}
+        if(response.status==200){
+            history.push('/auth/sign-in/');
+        }
 	}
 
-	// useEffect(() => { 
+    // console.log("Props: ", props);
+
+
+    // useEffect(() => { 
 	// 	const registerUser = async () => {
 	// 		const data = await registerUserAPI(
 	// 			{ mobile: "6900616140", password: 'password'},
@@ -91,7 +97,7 @@ const SignIn = () => {
 			>
 				<Box me="auto">
 					<Heading color={textColor} fontSize="36px" mb="10px">
-						Sign In
+						Register
 					</Heading>
 					<Text
 						mb="36px"
@@ -147,21 +153,20 @@ const SignIn = () => {
 							color={textColor}
 							mb="8px"
 						>
-							Mobile<Text color={brandStars}>*</Text>
+							Email<Text color={brandStars}>*</Text>
 						</FormLabel>
 						<Input
 							isRequired={true}
 							variant="auth"
 							fontSize="sm"
 							ms={{ base: "0px", md: "0px" }}
-							type="email"
-							placeholder="Enter 10 digit mobile number"
+							type="text"
+							onChange={(event)=>{
+                                setMobile(event.target.value);
+                            }}  
 							mb="24px"
 							fontWeight="500"
 							size="lg"
-							onChange={(event)=>{
-								setMobile(event.target.value);
-							}}
 						/>
 						<FormLabel
 							ms="4px"
@@ -181,9 +186,9 @@ const SignIn = () => {
 								size="lg"
 								type={show ? "text" : "password"}
 								variant="auth"
-								onChange={(event)=>{
-									setPassword(event.target.value);
-								}}
+                                onChange={(event)=>{
+                                    setPassword(event.target.value);
+                                }} 
 							/>
 							<InputRightElement display="flex" alignItems="center" mt="4px">
 								<Icon
@@ -195,7 +200,7 @@ const SignIn = () => {
 							</InputRightElement>
 						</InputGroup>
 						<Flex justifyContent="space-between" align="center" mb="24px">
-							<FormControl display="flex" alignItems="center">
+							{/* <FormControl display="flex" alignItems="center">
 								<Checkbox
 									id="remember-login"
 									colorScheme="brandScheme"
@@ -210,7 +215,7 @@ const SignIn = () => {
 								>
 									Keep me logged in
 								</FormLabel>
-							</FormControl>
+							</FormControl> */}
 							<NavLink to="/auth/forgot-password">
 								<Text
 									color={textColorBrand}
@@ -229,11 +234,11 @@ const SignIn = () => {
 							w="100%"
 							h="50"
 							mb="24px"
-							onClick={()=>{
-								signInUser();
-							}}
+                            onClick={()=>{
+                                registerUser();
+                            }}
 						>
-							Sign In
+							Regsiter
 						</Button>
 					</FormControl>
 					<Flex
@@ -244,15 +249,15 @@ const SignIn = () => {
 						mt="0px"
 					>
 						<Text color={textColorDetails} fontWeight="400" fontSize="14px">
-							Not registered yet?
-							<NavLink to="/auth/register">
+							Already Have Account?
+							<NavLink to="/auth/sign-in">
 								<Text
 									color={textColorBrand}
 									as="span"
 									ms="5px"
 									fontWeight="500"
 								>
-									Create an Account
+									Sign In
 								</Text>
 							</NavLink>
 						</Text>
@@ -263,6 +268,8 @@ const SignIn = () => {
 	);
 };
 
+// export default Register;
+
 const mapStateToProps = (state) => {
 	// console.log("State:", state);
 	return {
@@ -271,4 +278,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, null)(SignIn);
+export default connect(mapStateToProps, null)(Register);

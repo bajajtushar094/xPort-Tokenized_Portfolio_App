@@ -22,7 +22,7 @@ const UserDetail = new Schema({
 		required: true,
 	},
 	user: {
-		type: Schema.Types.ObjectId,
+		type: Object,
 		ref: "user",
 		required: true,
 	},
@@ -30,6 +30,9 @@ const UserDetail = new Schema({
 		type: Boolean,
 		required: true,
 		default: false,
+	},
+	email: {
+		type: String,
 	},
 });
 
