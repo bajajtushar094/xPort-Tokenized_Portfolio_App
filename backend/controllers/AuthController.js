@@ -8,6 +8,7 @@ const { createnewaccnt } = require("../hedera_controllers/Authentication");
 exports.register = async (req, res)=>{
     try{
         const {password, mobile} = req.body;
+        console.log("Headers: ", req.headers);
         let user = await UserModel.findOne({mobile:mobile});
         if(user){
             return apiResponse.errorResponse(req, res, "User already exists");
@@ -37,6 +38,9 @@ exports.register = async (req, res)=>{
 
             user.accountId = response.AccountId;
             user.privateKey = response.PrivateKey;
+
+            user.portfolios_bought = [];
+            user.portfolios_owned = [];
 
             await user.save();
             

@@ -1,26 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// Chakra imports
 import { Box, Grid } from "@chakra-ui/react";
 
 // Custom components
@@ -34,19 +11,70 @@ import Upload from "views/admin/profile/components/Upload";
 // Assets
 import banner from "assets/img/auth/banner.png";
 import avatar from "assets/img/avatars/avatar4.png";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function Overview() {
+import {
+	// Box,
+	Button,
+	Checkbox,
+	Flex,
+	FormControl,
+	FormLabel,
+	Heading,
+	Icon,
+	Input,
+	InputGroup,
+	InputRightElement,
+	Text,
+	useColorModeValue,
+} from "@chakra-ui/react";
+
+import illustration from "assets/img/auth/auth.png";
+import { FcGoogle } from "react-icons/fc";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { RiEyeCloseLine } from "react-icons/ri";
+
+import { registerUserAPI, loginUserAPI } from "actions/action";
+import { useDispatch, connect } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
+
+const Overview = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const textColor = useColorModeValue("navy.700", "white");
+	const textColorSecondary = "gray.400";
+	const textColorDetails = useColorModeValue("navy.700", "secondaryGray.600");
+	const textColorBrand = useColorModeValue("brand.500", "white");
+	const brandStars = useColorModeValue("brand.500", "brand.400");
+
+	const [mobile, setMobile] = useState("");
+	const [password, setPassword] = useState("");
+
+  const [show, setShow] = React.useState(false);
+	const handleClick = () => setShow(!show);
+
+	const signInUser = async () => {
+		const response = await loginUserAPI(
+			{mobile, password},
+			dispatch
+		);
+
+		if(response.status==200){
+			history.push("/admin/portfolio-marketplace");
+		}
+	}
+
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
       <Grid
         templateColumns={{
           base: "1fr",
-          lg: "1.34fr 1fr 1.62fr",
+          lg: "1fr",
         }}
         templateRows={{
-          base: "repeat(3, 1fr)",
+          base: "repeat(2, 1fr)",
           lg: "1fr",
         }}
         gap={{ base: "20px", xl: "20px" }}>
@@ -60,34 +88,137 @@ export default function Overview() {
           followers='9.7k'
           following='274'
         />
-        <Storage
-          gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
-          used={25.6}
-          total={50}
-        />
-        <Upload
-          gridArea={{
-            base: "3 / 1 / 4 / 2",
-            lg: "1 / 3 / 2 / 4",
-          }}
-          minH={{ base: "auto", lg: "420px", "2xl": "365px" }}
-          pe='20px'
-          pb={{ base: "100px", lg: "20px" }}
-        />
-      </Grid>
-      <Grid
-        mb='20px'
-        templateColumns={{
-          base: "1fr",
-          lg: "repeat(2, 1fr)",
-          "2xl": "1.34fr 1.62fr 1fr",
-        }}
-        templateRows={{
-          base: "1fr",
-          lg: "repeat(2, 1fr)",
-          "2xl": "1fr",
-        }}
-        gap={{ base: "20px", xl: "20px" }}>
+        <Flex
+          zIndex="2"
+          direction="column"
+          w={{ base: "100%", md: "420px" }}
+          maxW="100%"
+          background="transparent"
+          borderRadius="15px"
+          mx={{ base: "auto", lg: "unset" }}
+          me="auto"
+          mb={{ base: "20px", md: "auto" }}
+        >
+          <FormControl>
+            <FormLabel
+              display="flex"
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              mb="8px"
+            >
+              Mobile<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <Input
+              isRequired={true}
+              variant="auth"
+              fontSize="sm"
+              ms={{ base: "0px", md: "0px" }}
+              type="email"
+              placeholder="Enter 10 digit mobile number"
+              mb="24px"
+              fontWeight="500"
+              size="lg"
+              onChange={(event) => {
+                setMobile(event.target.value);
+              }}
+            />
+            <FormLabel
+              ms="4px"
+              fontSize="sm"
+              fontWeight="500"
+              color={textColor}
+              display="flex"
+            >
+              Password<Text color={brandStars}>*</Text>
+            </FormLabel>
+            <InputGroup size="md">
+              <Input
+                isRequired={true}
+                fontSize="sm"
+                placeholder="Min. 8 characters"
+                mb="24px"
+                size="lg"
+                type={show ? "text" : "password"}
+                variant="auth"
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+              <InputRightElement display="flex" alignItems="center" mt="4px">
+                <Icon
+                  color={textColorSecondary}
+                  _hover={{ cursor: "pointer" }}
+                  as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
+                  onClick={handleClick}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <Flex justifyContent="space-between" align="center" mb="24px">
+              <FormControl display="flex" alignItems="center">
+                <Checkbox
+                  id="remember-login"
+                  colorScheme="brandScheme"
+                  me="10px"
+                />
+                <FormLabel
+                  htmlFor="remember-login"
+                  mb="0"
+                  fontWeight="normal"
+                  color={textColor}
+                  fontSize="sm"
+                >
+                  Keep me logged in
+                </FormLabel>
+              </FormControl>
+              <NavLink to="/auth/forgot-password">
+                <Text
+                  color={textColorBrand}
+                  fontSize="sm"
+                  w="124px"
+                  fontWeight="500"
+                >
+                  Forgot password?
+                </Text>
+              </NavLink>
+            </Flex>
+            <Button
+              fontSize="sm"
+              variant="brand"
+              fontWeight="500"
+              w="100%"
+              h="50"
+              mb="24px"
+              onClick={() => {
+                signInUser();
+              }}
+            >
+              Sign In
+            </Button>
+          </FormControl>
+          <Flex
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="start"
+            maxW="100%"
+            mt="0px"
+          >
+            <Text color={textColorDetails} fontWeight="400" fontSize="14px">
+              Not registered yet?
+              <NavLink to="/auth/register">
+                <Text
+                  color={textColorBrand}
+                  as="span"
+                  ms="5px"
+                  fontWeight="500"
+                >
+                  Create an Account
+                </Text>
+              </NavLink>
+            </Text>
+          </Flex>
+        </Flex>
         <Projects
           gridArea='1 / 2 / 2 / 2'
           banner={banner}
@@ -98,21 +229,9 @@ export default function Overview() {
           followers='9.7k'
           following='274'
         />
-        <General
-          gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
-          minH='365px'
-          pe='20px'
-        />
-        <Notifications
-          used={25.6}
-          total={50}
-          gridArea={{
-            base: "3 / 1 / 4 / 2",
-            lg: "2 / 1 / 3 / 3",
-            "2xl": "1 / 3 / 2 / 4",
-          }}
-        />
       </Grid>
     </Box>
   );
 }
+
+export default Overview;

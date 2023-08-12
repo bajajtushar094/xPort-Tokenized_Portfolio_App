@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch, connect } from "react-redux";
 import { Icon } from "@chakra-ui/react";
 import {
   MdBarChart,
@@ -82,7 +83,7 @@ const routes = [
   {
     name: "Portfolio Marketplace",
     layout: "/admin",
-    path: "/default",
+    path: "/portfolio-marketplace",
     icon: (
       <Icon
         as={MdOutlineShoppingCart}
@@ -115,20 +116,23 @@ const routes = [
     icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
     component: Profile,
   },
-  {
-    name: "Sign In",
-    layout: "/auth",
-    path: "/sign-in",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
-    component: SignInCentered,
-  },
-  {
-    name: "Sign Up",
-    layout: "/auth",
-    path: "/register",
-    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
-    component: Register,
-  }
+  // {
+  //   name: "Sign In",
+  //   layout: "/auth",
+  //   path: "/sign-in",
+  //   icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+  //   component: SignInCentered,
+  // },
+  // {
+  //   name: "Sign Up",
+  //   layout: "/auth",
+  //   path: "/register",
+  //   icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+  //   component: Register,
+  // }
 ];
 
+
 export default routes;
+
+export {authRoutes};

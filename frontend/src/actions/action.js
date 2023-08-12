@@ -2,11 +2,11 @@ import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import { config, LOCAL_SERVER_URL } from "../config";
 
-// const configHeaders = localStorage.getItem('authTokens')?{
-//     headers: {
-//         'token': `${JSON.parse(localStorage.getItem('authTokens')).access}`
-//     }
-// }:"";
+const configHeaders = localStorage.getItem('authTokens')?{
+    headers: {
+        'x-access-token': localStorage.getItem('authTokens')
+    }
+}:"";
 
 export const registerUserAPI = async (registerData, dispatch)=>{
     try{
@@ -23,7 +23,7 @@ export const registerUserAPI = async (registerData, dispatch)=>{
                     user: response.data.data
                 })
 
-                localStorage.setItem('authTokens', JSON.stringify(response.data.data.token))
+                localStorage.setItem('authTokens', response.data.data.token)
             }
             catch(err){
                 console.log("Error: ", err);
@@ -48,6 +48,12 @@ export const loginUserAPI = async (loginData, dispatch)=>{
         
         if(response.status==200){
             try{
+                dispatch({
+                    type:'LOGIN_USER',
+                    user: response.data.data
+                })
+
+                
                 console.log("Response from login user api: ", response);
             }
             catch(err){

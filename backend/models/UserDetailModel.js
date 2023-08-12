@@ -21,11 +21,11 @@ const UserDetail = new Schema({
 		type: String,
 		required: true,
 	},
-	user: {
-		type: Object,
-		ref: "user",
-		required: true,
-	},
+	// user: {
+	// 	type: Object,
+	// 	ref: "user",
+	// 	required: true,
+	// },
 	verified: {
 		type: Boolean,
 		required: true,

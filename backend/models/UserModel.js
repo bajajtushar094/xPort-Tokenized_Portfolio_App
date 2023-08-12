@@ -18,8 +18,16 @@ const User = new Schema({
 	privateKey: {
 		type: String,
 	},
-	porfolios_owned: [],
-	portfolios_bought:{}
+	porfolios_owned: [{
+		type: Object
+	}],
+	portfolios_bought:[{
+		type: Object
+	}],
+	userDetails: {
+		type: Object,
+		ref: "UserDetailModel"
+	}
 });
 
 module.exports = model("user", User);

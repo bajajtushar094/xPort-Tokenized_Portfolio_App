@@ -7,6 +7,7 @@ import {
   Select,
   SimpleGrid,
   useColorModeValue,
+  Text
 } from "@chakra-ui/react";
 // Assets
 import Usa from "assets/img/dashboards/usa.png";
@@ -43,8 +44,28 @@ const PortfolioInsight = (props) => {
   const portfolio = props.state.portfolioInsight?props.state.portfolioInsight:{};
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const textColor = useColorModeValue("secondaryGray.900", "white");
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
+        // gap='20px'
+        mb='20px'
+        display="flex"
+        flexDirection="column">
+          <Text
+						color={textColor}
+						fontSize='26px'
+						fontWeight='700'>
+						{portfolio.name}
+					</Text>
+          <Text
+						color={brandColor}
+						fontSize='14px'
+						fontWeight='700'>
+						{portfolio.tagline}
+					</Text>
+        </SimpleGrid>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
         gap='20px'

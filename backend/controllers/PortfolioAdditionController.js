@@ -37,6 +37,10 @@ exports.addPortfolio = async (req, res) => {
 
 		portfolio.assets = portfolio_assets;
 
+		// user.portfolios_owned.push(portfolio);
+
+		// await user.save();
+
 		await portfolio.save();
 
 		return apiResponse.successResponse(req, res, "Portfolio added");
