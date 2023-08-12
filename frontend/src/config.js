@@ -9,7 +9,8 @@ export const config = ()=>{
             'password': 'password',
             'register':`${LOCAL_SERVER_URL}/auth/register/`,
             'login':`${LOCAL_SERVER_URL}/auth/login`,
-            'getAllPortfolio':`${LOCAL_SERVER_URL}/portfolio`
+            'getAllPortfolio':`${LOCAL_SERVER_URL}/portfolio`,
+            'addPortfolio':`${LOCAL_SERVER_URL}/portfolio/addPortfolio`
         }
     }
 

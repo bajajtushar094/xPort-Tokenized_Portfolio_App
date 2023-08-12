@@ -82,3 +82,18 @@ export const getAllPortfolioAPI = async (dispatch) => {
         console.log("Error from getAllPortfolio APIs: ", err);
     }
 }
+
+export const addPortfolioAPI = async (portfolioData, dispatch) => {
+    try{
+        const response = await axios.post(config().addPortfolio, portfolioData);
+
+        if(response.status==200){
+            console.log("Response from addPortfolio API: ", response);
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from addPortfolio API: ", err);
+    }
+}
