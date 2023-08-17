@@ -8,9 +8,12 @@ const NotificationModel = require("../models/NotificationModel");
 
 const { sendMail } = require("../helpers/mailer");
 
+const {submitPrivateMessage} = require("../hedera_controllers/AddPortfolio");
+
 exports.addPortfolio = async (req, res) => {
 	try {
 		const user = req.user;
+		console.log("user", user.accountId);
 		const { assets, num_assets, valuation, name, tagline } = req.body;
 
 		const portfolio = new PortfolioModel({
@@ -40,6 +43,8 @@ exports.addPortfolio = async (req, res) => {
 		// user.portfolios_owned.push(portfolio);
 
 		// await user.save();
+
+		await submitPrivateMessage(user.accountId, user.privateKey, portfolio);
 
 		await portfolio.save();
 

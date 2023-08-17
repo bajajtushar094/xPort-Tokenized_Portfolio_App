@@ -21,16 +21,6 @@ exports.register = async (req, res)=>{
 
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
-
-            const token = jwt.sign(
-                { user_id: user._id, mobile },
-                process.env.TOKEN_KEY,
-                {
-                  expiresIn: "2h",
-                }
-            );
-
-            user.token = token;
             
             
             const response = await createnewaccnt(mobile);
@@ -41,6 +31,16 @@ exports.register = async (req, res)=>{
 
             user.portfolios_bought = [];
             user.portfolios_owned = [];
+
+            const token = jwt.sign(
+                { user_id: user._id, mobile, accountId:user.accountId, privateKey: user.privateKey},
+                process.env.TOKEN_KEY,
+                {
+                  expiresIn: "2h",
+                }
+            );
+
+            user.token = token;
 
             await user.save();
             

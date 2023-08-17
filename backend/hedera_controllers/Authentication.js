@@ -45,7 +45,7 @@ const createnewaccnt = async (mobileNumber) => {
   //  // Create a new account with 1,000 tinybar starting balance
    const newAccount = await new AccountCreateTransaction()
      .setKey(newAccountPublicKey)
-     .setInitialBalance(Hbar.fromTinybars(1000))
+     .setInitialBalance(new Hbar(1000))
      .execute(client);
 
    // Get the new account ID
