@@ -16,7 +16,7 @@ const myAccountId = AccountId.fromString(process.env.OPERATOR_ID);
 const myPrivateKey = PrivateKey.fromString(process.env.OPERATOR_PVKEY);
 
 // Build Hedera testnet and mirror node client
-const client = Client.forTestnet();
+var client = Client.forTestnet();
 
 // Set the operator account ID and operator private key
 client.setOperator(myAccountId, myPrivateKey);
@@ -89,6 +89,8 @@ async function getMessage(topicId){
 }
 
 
+
+//pass arguments
 async function submitPrivateMessage() {
 
  

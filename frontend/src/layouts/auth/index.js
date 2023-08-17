@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import routes from "routes.js";
+import routes, {authRoutes} from "routes.js";
 
 // Chakra imports
 import { Box, useColorModeValue } from "@chakra-ui/react";
@@ -60,7 +60,7 @@ export default function Auth() {
           {getRoute() ? (
             <Box mx='auto' minH='100vh'>
               <Switch>
-                {getRoutes(routes)}
+                {getRoutes(authRoutes)}
                 <Redirect
                   from='/auth'
                   to='/auth/sign-in/default

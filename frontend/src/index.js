@@ -8,21 +8,26 @@ import RtlLayout from 'layouts/rtl';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
+import { Provider } from "react-redux"
+import configureStore from "./store";
+import RouteAuthentication from 'routeAuthentication';
 
 ReactDOM.render(
+	<Provider store={configureStore()}>
 	<ChakraProvider theme={theme}>
 		<React.StrictMode>
 			<ThemeEditorProvider>
 				<HashRouter>
 					<Switch>
-						<Route path={`/auth`} component={AuthLayout} />
+						<Route path={`/auth/sign-in`} component={AuthLayout} />
 						<Route path={`/admin`} component={AdminLayout} />
-						<Route path={`/rtl`} component={RtlLayout} />
-						<Redirect from='/' to='/admin' />
+						<Redirect from='/' to='/auth/sign-in' />
+						{/* <RouteAuthentication/> */}
 					</Switch>
 				</HashRouter>
 			</ThemeEditorProvider>
 		</React.StrictMode>
-	</ChakraProvider>,
+	</ChakraProvider>
+	</Provider>,
 	document.getElementById('root')
 );

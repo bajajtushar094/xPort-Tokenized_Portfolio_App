@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch, connect } from "react-redux";
 import { Icon } from "@chakra-ui/react";
 import {
   MdBarChart,
@@ -10,7 +11,7 @@ import {
 } from "react-icons/md";
 
 // Admin Imports
-import MainDashboard from "views/admin/default";
+import PortfolioInsight from "views/admin/portfolio-insight";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
@@ -18,15 +19,17 @@ import RTL from "views/admin/rtl";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
+import Register from "views/auth/register";
 
-const routes = [
-  {
-    name: "Main Dashboard",
-    layout: "/admin",
-    path: "/default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
-  },
+
+const adminRoutes = [
+  // {
+  //   name: "Main Dashboard",
+  //   layout: "/admin",
+  //   path: "/default",
+  //   icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+  //   component: MainDashboard,
+  // },
   {
     name: "NFT Marketplace",
     layout: "/admin",
@@ -55,7 +58,10 @@ const routes = [
     path: "/profile",
     icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
     component: Profile,
-  },
+  }
+]
+
+const authRoutes = [
   {
     name: "Sign In",
     layout: "/auth",
@@ -64,12 +70,69 @@ const routes = [
     component: SignInCentered,
   },
   {
-    name: "RTL Admin",
-    layout: "/rtl",
-    path: "/rtl-default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: RTL,
+    name: "Sign Up",
+    layout: "/auth",
+    path: "/register",
+    icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+    component: Register,
+  }
+]
+
+
+const routes = [
+  {
+    name: "Portfolio Marketplace",
+    layout: "/admin",
+    path: "/portfolio-marketplace",
+    icon: (
+      <Icon
+        as={MdOutlineShoppingCart}
+        width='20px'
+        height='20px'
+        color='inherit'
+      />
+    ),
+    component: NFTMarketplace,
+    secondary: true,
   },
+  {
+    name: "Portfolio Insights",
+    layout: "/admin",
+    path: "/portfolio-insights",
+    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+    component: PortfolioInsight,
+  },
+  {
+    name: "Portfolio Addition",
+    layout: "/admin",
+    icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+    path: "/add-portfolio",
+    component: DataTables,
+  },
+  {
+    name: "Profile",
+    layout: "/admin",
+    path: "/profile",
+    icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+    component: Profile,
+  },
+  // {
+  //   name: "Sign In",
+  //   layout: "/auth",
+  //   path: "/sign-in",
+  //   icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+  //   component: SignInCentered,
+  // },
+  // {
+  //   name: "Sign Up",
+  //   layout: "/auth",
+  //   path: "/register",
+  //   icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
+  //   component: Register,
+  // }
 ];
 
+
 export default routes;
+
+export {authRoutes};
