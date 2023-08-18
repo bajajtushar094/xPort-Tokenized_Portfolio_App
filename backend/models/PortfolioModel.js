@@ -31,10 +31,10 @@ const PortfolioKPI = new Schema({
 });
 
 const Portfolio = new Schema({
-	// owner_user: {
-	// 	type: Object,
-	// 	ref: "user",
-	// },
+	owner_user: {
+		type: Object,
+		ref: "user",
+	},
 	// buyer_users: [],
 	name:{
 		type: String,
@@ -55,6 +55,9 @@ const Portfolio = new Schema({
 	},
 	assets: [],
 	kpis: [],
+	topicId: {
+		type:String
+	}
 });
 
 module.exports = model("portfolio", Portfolio);

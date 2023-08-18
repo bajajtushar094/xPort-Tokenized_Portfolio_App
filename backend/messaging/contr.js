@@ -14,7 +14,7 @@ const operatorKey = PrivateKey.fromString(MY_PRIVATE_KEY);
 
 const client = Client.forTestnet().setOperator(operatorId,operatorKey);
 async function main () {
-//Create a file on Hedera and store the hex-encoded bytecode
+/*Create a file on Hedera and store the hex-encoded bytecode
 const fileCreateTx = new FileCreateTransaction()
         //Set the bytecode of the contract
         .setContents(bytecode)
@@ -32,7 +32,8 @@ const bytecodeFileId = fileReceipt.fileId;
 
 //Log the file ID
 console.log("The smart contract byte code file ID is " +bytecodeFileId)
-
+*/
+const bytecodeFileId = '0.0.546432';
 //const ans = await QuerryFirstMessage();
 
 // Instantiate the contract instance

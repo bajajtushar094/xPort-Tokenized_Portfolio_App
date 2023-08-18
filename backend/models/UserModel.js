@@ -19,10 +19,12 @@ const User = new Schema({
 		type: String,
 	},
 	porfolios_owned: [{
-		type: Object
+		type: Object,
+		ref: "Portfolios Owned"
 	}],
 	portfolios_bought:[{
-		type: Object
+		type: Object,
+		ref: "Portfolios Bought"
 	}],
 	userDetails: {
 		type: Object,

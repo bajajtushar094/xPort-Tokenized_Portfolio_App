@@ -6,18 +6,21 @@ const PortfolioAssetModel = require("../models/PortfolioAssetModel");
 const UserPortfolioModel = require("../models/UserPortfolioModel");
 const NotificationModel = require("../models/NotificationModel");
 
+var ObjectId = require('mongodb').ObjectId;
+
 const { sendMail } = require("../helpers/mailer");
 
 const {submitPrivateMessage} = require("../hedera_controllers/AddPortfolio");
+const {purchasePortfolio} = require("../hedera_controllers/BuyPortfolio");
 
 exports.addPortfolio = async (req, res) => {
 	try {
 		const user = req.user;
-		console.log("user", user.accountId);
+		console.log("user", user);
 		const { assets, num_assets, valuation, name, tagline } = req.body;
 
 		const portfolio = new PortfolioModel({
-			// owner_user:user,
+			owner_user:user,
 			num_assets,
 			valuation,
 			name,
@@ -44,9 +47,13 @@ exports.addPortfolio = async (req, res) => {
 
 		// await user.save();
 
-		await submitPrivateMessage(user.accountId, user.privateKey, portfolio);
+		const topicId = await submitPrivateMessage(user.accountId, user.privateKey, portfolio);
+
+		portfolio.topicId = topicId.toString();
 
 		await portfolio.save();
+
+		console.log("topicId for portfolio: ", topicId);
 
 		return apiResponse.successResponse(req, res, "Portfolio added");
 	} catch (err) {
@@ -140,10 +147,13 @@ exports.editPortfolio = async (req, res) => {
 
 exports.buyPortfolio = async (req, res) => {
 	try {
-		const { portfolio_id } = req.body;
-		const user = req.user;
+		var { portfolio_id } = req.body;
+		var user = req.user;
+		console.log("User from buy portfolio: ", user);
 
-		const portfolio = await PortfolioModel.findById({ portfolio_id });
+		// console.log("Portfolio ID: ", ObjectId.isValid(portfolio_id));
+
+		const portfolio = await PortfolioModel.findOne({ '_id': new ObjectId(portfolio_id) });
 		if (!portfolio) {
 			return apiResponse.notFoundResponse(
 				req,
@@ -151,6 +161,8 @@ exports.buyPortfolio = async (req, res) => {
 				`Portfolio with id: ${id} not found`
 			);
 		}
+
+		console.log("Portfolio fetched from _id: ", portfolio);
 		if (portfolio.owner_user._id == user._id) {
 			return apiResponse.forbiddenResponse(req, res, {
 				message: "You can not buy your own portfolio",
@@ -158,31 +170,25 @@ exports.buyPortfolio = async (req, res) => {
 			});
 		}
 
-		// const unique = await UserPortfolioModel.find({
-		// 	user: user._id,
-		// 	portfolio,
-		// });
+		await purchasePortfolio(user.accountId, user.privateKey, portfolio.topicId);
+
+
+		user = await UserModel.findOne({'_id':user._id});
+
+		console.log("User model after buying portfolio: ", user);
 
 		user.portfolios_bought.push(portfolio);
 
 		await user.save();
 
-		portfolio.buyer_user.push(user);
-
 		await portfolio.save();
-
-		// const boughtPortfolio = new UserPortfolioModel({
-		// 	user: user._id,
-		// 	portfolio,
-		// });
 
 		return apiResponse.successResponseWithData(
 			req,
 			res,
 			"Bought Portfolio",
 			{
-				success: true,
-				boughtPortfolio,
+				success: true
 			}
 		);
 	} catch (err) {

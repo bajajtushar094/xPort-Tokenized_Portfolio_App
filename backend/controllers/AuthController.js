@@ -33,7 +33,7 @@ exports.register = async (req, res)=>{
             user.portfolios_owned = [];
 
             const token = jwt.sign(
-                { user_id: user._id, mobile, accountId:user.accountId, privateKey: user.privateKey},
+                user.toObject(),
                 process.env.TOKEN_KEY,
                 {
                   expiresIn: "2h",
@@ -72,7 +72,7 @@ exports.login = async (req, res)=>{
         }
 
         const token = jwt.sign(
-            { user_id: user._id, mobile },
+            user.toObject(),
             process.env.TOKEN_KEY,
             {
               expiresIn: "2h",

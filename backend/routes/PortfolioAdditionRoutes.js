@@ -12,7 +12,7 @@ router.post(
 	PortfolioAdditionController.addPortfolio
 );
 router.post(
-	"/buy/:id",
+	"/buyPortfolio",
 	AuthMiddleware.verifyToken,
 	PortfolioAdditionController.buyPortfolio
 );

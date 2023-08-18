@@ -38,7 +38,7 @@ async function getTopicId(txResponse) {
     console.log("txResponse: ", txResponse);
     let receipt = await txResponse.getReceipt(client);
     let topicId = receipt.topicId;
-    console.log(`Your topic ID is: ${topicId}`);
+    console.log(`Your topic ID is on line 41: ${topicId}`);
     return topicId;
 }
 
@@ -124,6 +124,8 @@ async function submitPrivateMessage(accountId, privateKey, portfolio) {
     await new Promise((resolve) => setTimeout(resolve, 10000));
     // topicId = "0.0.466401";
     await getMessage(topicId);
+    console.log("topicId from javascript file: ", topicId.toString());
+    return topicId.toString();
 
 }
 
