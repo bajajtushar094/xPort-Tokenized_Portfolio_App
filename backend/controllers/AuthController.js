@@ -4,6 +4,7 @@ const UserModel = require("../models/UserModel");
 const apiResponse = require("../helpers/ApiResponse");
 const jwt = require("jsonwebtoken");
 const { createnewaccnt } = require("../hedera_controllers/Authentication");
+const UserDetailModel = require("../models/UserDetailModel");
 
 exports.register = async (req, res)=>{
     try{
@@ -33,7 +34,7 @@ exports.register = async (req, res)=>{
             user.portfolios_owned = [];
 
             const token = jwt.sign(
-                user.toObject(),
+                {'_id':user._id},
                 process.env.TOKEN_KEY,
                 {
                   expiresIn: "2h",
@@ -72,7 +73,7 @@ exports.login = async (req, res)=>{
         }
 
         const token = jwt.sign(
-            user.toObject(),
+            {'_id':user._id},
             process.env.TOKEN_KEY,
             {
               expiresIn: "2h",
@@ -90,5 +91,29 @@ exports.login = async (req, res)=>{
         console.log("Error while loginin the user: "+err);
 
         return apiResponse.errorResponse(req, res, err.message);
+    }
+}
+
+exports.additionalUserInfo = async (req, res) => {
+    try{
+        const {name, pancard, aadhar_card, email} = req.body;
+        const user_id = req.user._id;
+
+        const user = await UserModel.findOne({"_id":user_id});
+
+        const userDetail = new UserDetailModel({
+            name, pancard, aadhar_card, email
+        });
+
+        await userDetail.save();
+
+        user.userDetail = userDetail;
+
+        await user.save();
+
+        return apiResponse.successResponse(req, res, "Valid User");
+    }
+    catch (err){
+        console.log("Error while adding additional User info: ", err);
     }
 }

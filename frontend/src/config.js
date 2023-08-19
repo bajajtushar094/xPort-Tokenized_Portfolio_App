@@ -10,7 +10,8 @@ export const config = ()=>{
             'register':`${LOCAL_SERVER_URL}/auth/register/`,
             'login':`${LOCAL_SERVER_URL}/auth/login`,
             'getAllPortfolio':`${LOCAL_SERVER_URL}/portfolio`,
-            'addPortfolio':`${LOCAL_SERVER_URL}/portfolio/addPortfolio`
+            'addPortfolio':`${LOCAL_SERVER_URL}/portfolio/addPortfolio`,
+            'additionalUserInfo':`${LOCAL_SERVER_URL}/auth/additionalUserInfo`
         }
     }
 

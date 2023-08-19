@@ -15,8 +15,10 @@ const {purchasePortfolio} = require("../hedera_controllers/BuyPortfolio");
 
 exports.addPortfolio = async (req, res) => {
 	try {
-		const user = req.user;
-		console.log("user", user);
+		const user_id = req.user._id;
+		const user = await UserModel.findOne({'_id':user_id})
+		console.log("user id ", user_id);
+		console.log("user: ", user)
 		const { assets, num_assets, valuation, name, tagline } = req.body;
 
 		const portfolio = new PortfolioModel({
@@ -42,6 +44,8 @@ exports.addPortfolio = async (req, res) => {
 		}
 
 		portfolio.assets = portfolio_assets;
+		// user.portfolios_owned = [];
+		// console.log("Portfolios owned: ", user.portfolios_owned);
 
 		// user.portfolios_owned.push(portfolio);
 
@@ -58,7 +62,7 @@ exports.addPortfolio = async (req, res) => {
 		return apiResponse.successResponse(req, res, "Portfolio added");
 	} catch (err) {
 		console.log("Error: ", err);
-		return apiResponse.errorResponse(req, res, err.message);
+		return apiResponse.errorResponse(req, res, err);
 	}
 };
 

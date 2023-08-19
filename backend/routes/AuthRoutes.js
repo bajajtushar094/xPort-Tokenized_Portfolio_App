@@ -9,6 +9,7 @@ router.post("/login", AuthController.login);
 router.post("/welcome", AuthMiddleware.verifyToken, (req, res) => {
     res.status(200).send("Welcome!");
 });
+router.post("/additionalUserInfo", AuthMiddleware.verifyToken, AuthController.additionalUserInfo);
 
 
 

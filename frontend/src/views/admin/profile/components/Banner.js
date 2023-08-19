@@ -36,21 +36,21 @@ export default function Banner(props) {
       <Text color={textColorSecondary} fontSize='sm'>
         {job}
       </Text>
-      <Flex w='max-content' mx='auto' mt='26px'>
-        <Flex mx='auto' me='60px' align='center' direction='column'>
+      <Flex w='max-content' mx='auto' mt='26px' display="flex" direction="column">
+        <Flex mx='auto' align='center' direction='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
             {posts}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Posts
+            Pancard
           </Text>
         </Flex>
-        <Flex mx='auto' me='60px' align='center' direction='column'>
+        <Flex mx='auto' align='center' direction='column'>
           <Text color={textColorPrimary} fontSize='2xl' fontWeight='700'>
             {followers}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Followers
+            Aadhar Card
           </Text>
         </Flex>
         <Flex mx='auto' align='center' direction='column'>
@@ -58,7 +58,7 @@ export default function Banner(props) {
             {following}
           </Text>
           <Text color={textColorSecondary} fontSize='sm' fontWeight='400'>
-            Following
+            Email
           </Text>
         </Flex>
       </Flex>

@@ -18,15 +18,15 @@ const User = new Schema({
 	privateKey: {
 		type: String,
 	},
-	porfolios_owned: [{
-		type: Object,
-		ref: "Portfolios Owned"
-	}],
+	// portfolios_owned: [{
+	// 	type: Object,
+	// 	ref: "Portfolios Owned"
+	// }],
 	portfolios_bought:[{
 		type: Object,
 		ref: "Portfolios Bought"
 	}],
-	userDetails: {
+	userDetail: {
 		type: Object,
 		ref: "UserDetailModel"
 	}

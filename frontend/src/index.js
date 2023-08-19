@@ -19,7 +19,7 @@ ReactDOM.render(
 			<ThemeEditorProvider>
 				<HashRouter>
 					<Switch>
-						<Route path={`/auth/sign-in`} component={AuthLayout} />
+						<Route path={`/auth`} component={AuthLayout} />
 						<Route path={`/admin`} component={AdminLayout} />
 						<Redirect from='/' to='/auth/sign-in' />
 						{/* <RouteAuthentication/> */}
