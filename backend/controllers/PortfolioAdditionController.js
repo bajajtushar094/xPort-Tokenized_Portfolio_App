@@ -12,6 +12,8 @@ const { sendMail } = require("../helpers/mailer");
 
 const {submitPrivateMessage} = require("../hedera_controllers/AddPortfolio");
 const {purchasePortfolio} = require("../hedera_controllers/BuyPortfolio");
+const {costPortfolioTransaction} = require("../hedera_controllers/HbarTransaction");
+
 
 exports.addPortfolio = async (req, res) => {
 	try {
@@ -19,14 +21,16 @@ exports.addPortfolio = async (req, res) => {
 		const user = await UserModel.findOne({'_id':user_id})
 		console.log("user id ", user_id);
 		console.log("user: ", user)
-		const { assets, num_assets, valuation, name, tagline } = req.body;
+		const { assets, num_assets, valuation, name, tagline, costPortfolio} = req.body;
 
 		const portfolio = new PortfolioModel({
 			owner_user:user,
 			num_assets,
 			valuation,
 			name,
-			tagline
+			tagline,
+			valuation,
+			costPortfolio
 		});
 
 		var portfolio_assets = [];
@@ -153,7 +157,6 @@ exports.buyPortfolio = async (req, res) => {
 	try {
 		var { portfolio_id } = req.body;
 		var user = req.user;
-		console.log("User from buy portfolio: ", user);
 
 		// console.log("Portfolio ID: ", ObjectId.isValid(portfolio_id));
 
@@ -167,12 +170,21 @@ exports.buyPortfolio = async (req, res) => {
 		}
 
 		console.log("Portfolio fetched from _id: ", portfolio);
-		if (portfolio.owner_user._id == user._id) {
+		if (portfolio.owner_user == user._id) {
 			return apiResponse.forbiddenResponse(req, res, {
 				message: "You can not buy your own portfolio",
 				success: false,
 			});
 		}
+
+		const owner_user = await UserModel.findOne({'_id':portfolio.owner_user});
+
+		// console.log("Owner User: ", owner_user);
+		var user = await UserModel.findOne({'_id':user._id})
+		console.log("User from buy portfolio: ", user);
+		console.log("Owner User for portfolio: ",owner_user);
+
+		await costPortfolioTransaction(user.accountId, user.privateKey, owner_user.accountId, owner_user.privateKey, portfolio.costPortfolio);
 
 		await purchasePortfolio(user.accountId, user.privateKey, portfolio.topicId);
 

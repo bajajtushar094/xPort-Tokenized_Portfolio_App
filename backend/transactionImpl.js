@@ -22,6 +22,8 @@ async function main() {
   // Create treasuery account  (senders)
   console.log(`\n- Creating accounts...`);
   const initBalance = 100;
+
+  //User buying portfolio
   const treasuryKey = PrivateKey.generateED25519();
   const [treasuryAccSt, treasuryId] = await accountCreatorFcn.func(
     treasuryKey,
@@ -31,6 +33,8 @@ async function main() {
   console.log(`- Created Treasury account ${treasuryId} that has a balance of ${initBalance} ℏ`);
 
   // create receivers account 
+
+  // Owner of portfolio
   const aliceKey = PrivateKey.generateED25519();
   const [aliceAccSt, aliceId] = await accountCreatorFcn.func(aliceKey, initBalance,client);
   console.log(`- Created Alice's account ${aliceId} that has a balance of ${initBalance} ℏ`);
