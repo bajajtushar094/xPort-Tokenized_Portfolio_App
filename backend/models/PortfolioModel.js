@@ -53,6 +53,11 @@ const Portfolio = new Schema({
 		required: true,
 		default: 0,
 	},
+	costPortfolio:{
+		type:Number,
+		required: true,
+		default: 0
+	},
 	assets: [],
 	kpis: [],
 	topicId: {
