@@ -6,30 +6,33 @@ const PortfolioAssetModel = require("../models/PortfolioAssetModel");
 const UserPortfolioModel = require("../models/UserPortfolioModel");
 const NotificationModel = require("../models/NotificationModel");
 
-var ObjectId = require('mongodb').ObjectId;
+var ObjectId = require("mongodb").ObjectId;
 
 const { sendMail } = require("../helpers/mailer");
+const { getPortfolioValue } = require("../helpers/getPortfolioValue");
 
-const {submitPrivateMessage} = require("../hedera_controllers/AddPortfolio");
-const {purchasePortfolio} = require("../hedera_controllers/BuyPortfolio");
+const { submitPrivateMessage } = require("../hedera_controllers/AddPortfolio");
+const { purchasePortfolio } = require("../hedera_controllers/BuyPortfolio");
 
 exports.addPortfolio = async (req, res) => {
 	try {
 		const user_id = req.user._id;
-		const user = await UserModel.findOne({'_id':user_id})
+		const user = await UserModel.findOne({ _id: user_id });
 		console.log("user id ", user_id);
-		console.log("user: ", user)
-		const { assets, num_assets, valuation, name, tagline } = req.body;
+		console.log("user: ", user);
+		const { assets, num_assets, valuation, name, tagline, asset_val_body } =
+			req.body;
 
 		const portfolio = new PortfolioModel({
-			owner_user:user,
+			owner_user: user,
 			num_assets,
 			valuation,
 			name,
-			tagline
+			tagline,
 		});
 
 		var portfolio_assets = [];
+
 		for (asset of assets) {
 			// console.log("Asset: ", asset);
 			const portfolioAsset = new PortfolioAssetModel({
@@ -51,7 +54,13 @@ exports.addPortfolio = async (req, res) => {
 
 		// await user.save();
 
-		const topicId = await submitPrivateMessage(user.accountId, user.privateKey, portfolio);
+		portfolio.portfolio_chart = getPortfolioValue(asset_val_body);
+
+		const topicId = await submitPrivateMessage(
+			user.accountId,
+			user.privateKey,
+			portfolio
+		);
 
 		portfolio.topicId = topicId.toString();
 
@@ -157,7 +166,9 @@ exports.buyPortfolio = async (req, res) => {
 
 		// console.log("Portfolio ID: ", ObjectId.isValid(portfolio_id));
 
-		const portfolio = await PortfolioModel.findOne({ '_id': new ObjectId(portfolio_id) });
+		const portfolio = await PortfolioModel.findOne({
+			_id: new ObjectId(portfolio_id),
+		});
 		if (!portfolio) {
 			return apiResponse.notFoundResponse(
 				req,
@@ -174,10 +185,13 @@ exports.buyPortfolio = async (req, res) => {
 			});
 		}
 
-		await purchasePortfolio(user.accountId, user.privateKey, portfolio.topicId);
+		await purchasePortfolio(
+			user.accountId,
+			user.privateKey,
+			portfolio.topicId
+		);
 
-
-		user = await UserModel.findOne({'_id':user._id});
+		user = await UserModel.findOne({ _id: user._id });
 
 		console.log("User model after buying portfolio: ", user);
 
@@ -192,7 +206,7 @@ exports.buyPortfolio = async (req, res) => {
 			res,
 			"Bought Portfolio",
 			{
-				success: true
+				success: true,
 			}
 		);
 	} catch (err) {

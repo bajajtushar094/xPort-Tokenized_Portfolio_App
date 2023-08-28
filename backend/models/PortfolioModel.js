@@ -36,12 +36,12 @@ const Portfolio = new Schema({
 		ref: "user",
 	},
 	// buyer_users: [],
-	name:{
+	name: {
 		type: String,
-		required: true
+		required: true,
 	},
-	tagline:{
-		type:String
+	tagline: {
+		type: String,
 	},
 	num_assets: {
 		type: Number,
@@ -56,8 +56,11 @@ const Portfolio = new Schema({
 	assets: [],
 	kpis: [],
 	topicId: {
-		type:String
-	}
+		type: String,
+	},
+	portfolio_chart: {
+		type: String,
+	},
 });
 
 module.exports = model("portfolio", Portfolio);
