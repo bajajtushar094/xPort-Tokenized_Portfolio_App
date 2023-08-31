@@ -38,24 +38,20 @@ const Portfolio = new Schema({
 	// buyer_users: [],
 	name: {
 		type: String,
-		required: true,
 	},
 	tagline: {
 		type: String,
 	},
 	num_assets: {
 		type: Number,
-		required: true,
 		default: 0,
 	},
 	valuation: {
 		type: Number,
-		required: true,
 		default: 0,
 	},
 	costPortfolio:{
 		type:Number,
-		required: true,
 		default: 0
 	},
 	assets: [],
@@ -64,7 +60,7 @@ const Portfolio = new Schema({
 		type: String,
 	},
 	portfolio_chart: {
-		type: String,
+		type: Object,
 	},
 });
 

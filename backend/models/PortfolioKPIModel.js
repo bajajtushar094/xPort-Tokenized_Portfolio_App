@@ -1,22 +1,17 @@
 const { Schema, model } = require("mongoose");
 
 const PortfolioKPI = new Schema({
-	Portfolio:{
-		type: Object,
-		ref: "Portfolio"
+	portfolio_id:{
+		type: Schema.Types.ObjectId
 	},
 	kpi_name: {
 		type: String,
 		required: true,
 	},
 	kpi_value: {
-		type: String,
+		type: Object,
 		required: true,
-	},
-	kpi_type: {
-		type: String,
-		required: true,
-	},
+	}
 });
 
 module.exports = model("portfolioKPI", PortfolioKPI);

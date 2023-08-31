@@ -37,14 +37,43 @@ import {
 import tableDataCheck from "views/admin/portfolio-insight/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/portfolio-insight/variables/tableDataComplex.json";
 
+import { registerUserAPI, loginUserAPI, getAllPortfolioAPI, getChartValuesAPI} from "actions/action";
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import LineChart from "./components/LineChart";
+
+Chart.register(CategoryScale);
+
 const PortfolioInsight = (props) => {
   // Chakra Color Mode
+//   const [chartData, setChartData] = useState({
+//     labels: ['Red', 'Orange', 'Blue'],
+//     // datasets is an array of objects where each object represents a set of data to display corresponding to the labels above. for brevity, we'll keep it at one object
+//     datasets: [
+//         {
+//           label: 'Popularity of colours',
+//           data: [55, 23, 96],
+//           // you can set indiviual colors for each bar
+//           backgroundColor: [
+//             'rgba(255, 255, 255, 0.6)',
+//             'rgba(255, 255, 255, 0.6)',
+//             'rgba(255, 255, 255, 0.6)'
+//           ],
+//           borderWidth: 1,
+//         }
+//     ]
+// });
+
+  const [chartData, setChartData] = useState({});
 
   console.log("Props from User Reports: ", props);
-  const portfolio = props.state.portfolioInsight?props.state.portfolioInsight:{};
+  const dispatch = useDispatch();
+  const portfolio = props?.state?.portfolioInsight?props.state.portfolioInsight:{};
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const textColor = useColorModeValue("secondaryGray.900", "white");
+  
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
@@ -148,9 +177,24 @@ const PortfolioInsight = (props) => {
         />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-        <TotalSpent />
-        <WeeklyRevenue />
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap='20px' mb='20px'>
+      {/* <Line
+        data={chartData}
+        options={{
+          plugins: {
+            title: {
+              display: true,
+              text: "Users Gained between 2016-2020"
+            },
+            legend: {
+              display: false
+            }
+          }
+        }}
+      /> */}
+        {/* {(Object.keys(chartData).length==0)&&<LineChart chartData={chartData} />} */}
+        <TotalSpent/>
+        {/* <WeeklyRevenue /> */}
       </SimpleGrid>
     </Box>
   );

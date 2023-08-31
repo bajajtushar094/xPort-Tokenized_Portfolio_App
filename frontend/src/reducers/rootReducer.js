@@ -10,7 +10,8 @@ import jwt_decode from 'jwt-decode';
 const initState = {
     isAuthenticated: false,
     user: null,
-    portfolioInsight: {}
+    portfolioInsight: {},
+    tickers: {}
 }
 
 const rootReducer = (state=initState, action) => {
@@ -26,6 +27,13 @@ const rootReducer = (state=initState, action) => {
         return {
             ...state,
             portfolioInsight: action.portfolioInsight
+        }
+    }
+
+    if(action.type==="TICKERS"){
+        return {
+            ...state,
+            tickers: action.tickers
         }
     }
 }

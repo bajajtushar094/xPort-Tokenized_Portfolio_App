@@ -34,7 +34,7 @@ import Avatar4 from "assets/img/avatars/avatar4.png";
 import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
-import { registerUserAPI, loginUserAPI, getAllPortfolioAPI } from "actions/action";
+import { registerUserAPI, loginUserAPI, getAllPortfolioAPI, getTickersAPI } from "actions/action";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { NavLink, useHistory } from "react-router-dom";
 
@@ -44,7 +44,7 @@ const Marketplace = (props) => {
   const textColorBrand = useColorModeValue("brand.500", "white");
   const dispatch = useDispatch();
   const [portfolios, setPortfolios] = useState([]);
-
+  console.log("Props from MarketPlace: ", props);
   // const { image, name, author, bidders, download, currentbid } = props;
   const [like, setLike] = useState(false);
   const textColorNFT = useColorModeValue("navy.700", "white");
@@ -55,6 +55,9 @@ const Marketplace = (props) => {
   const portfolioInsights = () => {
     history.push("/admin/portfolio-insights");
   }
+
+  useEffect(() => { 
+	 }, []);
 
   useEffect(() => {
     const fetchPortfolios = async () => {
@@ -72,6 +75,14 @@ const Marketplace = (props) => {
 
       console.log(portfolios);
     }
+
+    const getTickers = async () => {
+			const data = await getTickersAPI(
+				dispatch
+			);
+		}
+
+		getTickers();
 
     fetchPortfolios();
 

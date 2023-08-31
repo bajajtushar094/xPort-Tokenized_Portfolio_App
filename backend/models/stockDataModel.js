@@ -15,7 +15,7 @@ const stockDataModel = new mongoose.Schema({
 	},
 	timestamps: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	createdAt: {
 		type: Date,

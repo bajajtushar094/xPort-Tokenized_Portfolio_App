@@ -14,6 +14,8 @@ const { getPortfolioValue } = require("../helpers/getPortfolioValue");
 const {submitPrivateMessage} = require("../hedera_controllers/AddPortfolio");
 const {purchasePortfolio} = require("../hedera_controllers/BuyPortfolio");
 const {costPortfolioTransaction} = require("../hedera_controllers/HbarTransaction");
+const stockDataModel = require("../models/stockDataModel");
+const PortfolioKPIModel = require("../models/PortfolioKPIModel");
 
 exports.addPortfolio = async (req, res) => {
 	try {
@@ -21,8 +23,10 @@ exports.addPortfolio = async (req, res) => {
 		const user = await UserModel.findOne({ _id: user_id });
 		console.log("user id ", user_id);
 		console.log("user: ", user);
-		const { assets, num_assets, valuation, name, tagline, asset_val_body } =
+		const { assets, num_assets, valuation, name, tagline, costPortfolio, assetIds } =
 			req.body;
+
+		console.log("Assets ids: ", assetIds);
 
 		const portfolio = new PortfolioModel({
 			owner_user: user,
@@ -34,29 +38,40 @@ exports.addPortfolio = async (req, res) => {
 		});
 
 		var portfolio_assets = [];
+		var stockDataArray = [];
 
 		for (asset of assets) {
 			// console.log("Asset: ", asset);
+			console.log("assetId: ", asset.stock_id);
+			const stockData = await stockDataModel.findOne({_id:asset.stock_id});
+			console.log("StockData: ", stockData);
 			const portfolioAsset = new PortfolioAssetModel({
 				// portfolio: portfolio,
 				asset_name: asset.asset_name,
 				asset_value: asset.asset_value,
 				asset_type: asset.asset_type,
+				stock_id: asset.stock_id
 			});
 			await portfolioAsset.save();
 			portfolio_assets.push(portfolioAsset);
-			// await portfolio.assets.push(portfolioAsset);
+			stockDataArray.push(stockData);
 		}
 
 		portfolio.assets = portfolio_assets;
-		// user.portfolios_owned = [];
-		// console.log("Portfolios owned: ", user.portfolios_owned);
 
-		// user.portfolios_owned.push(portfolio);
+		console.log("StockData Array: ", stockDataArray);
 
-		// await user.save();
 
-		portfolio.portfolio_chart = getPortfolioValue(asset_val_body);
+		const portfolio_chart = getPortfolioValue(stockDataArray);
+
+		const portfolio_kpi = new PortfolioKPIModel({
+			portfolio_id:portfolio._id,
+			kpi_name:"portfolio_chart",
+			kpi_value:portfolio_chart
+		})
+		console.log("Portfolio Chart: ", portfolio_kpi);
+
+		await portfolio_kpi.save();
 
 		const topicId = await submitPrivateMessage(
 			user.accountId,
@@ -67,8 +82,6 @@ exports.addPortfolio = async (req, res) => {
 		portfolio.topicId = topicId.toString();
 
 		await portfolio.save();
-
-		console.log("topicId for portfolio: ", topicId);
 
 		return apiResponse.successResponse(req, res, "Portfolio added");
 	} catch (err) {

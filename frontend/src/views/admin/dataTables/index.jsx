@@ -22,6 +22,7 @@ import {
 	Input,
 	InputGroup,
 	InputRightElement,
+	Select
 } from "@chakra-ui/react";
 import Card from "components/card/Card";
 import React, { useState, useEffect } from "react";
@@ -30,12 +31,12 @@ import illustration from "assets/img/auth/auth.png";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
-import { registerUserAPI, loginUserAPI, addPortfolioAPI } from "actions/action";
+import { registerUserAPI, loginUserAPI, addPortfolioAPI, getStockDataAPI } from "actions/action";
 
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
-const Settings = () => {
+const Settings = (props) => {
 	// Chakra Color Mode
 
 
@@ -44,7 +45,7 @@ const Settings = () => {
 	// const textColor = useColorModeValue("navy.700", "white");
 	const [show, setShow] = React.useState(false);
 	const handleClick = () => setShow(!show);
-
+	const tickers = props.state.tickers;
 
 	const textColor = useColorModeValue("secondaryGray.900", "white");
 	const iconColor = useColorModeValue("secondaryGray.500", "white");
@@ -53,20 +54,38 @@ const Settings = () => {
 
 	const [assets, setAssets] = useState([]);
 	const [assetName, setAssetName] = useState("");
+	const [assetTicker, setAssetTicker] = useState("");
 	const [assetValue, setAssetValue] = useState("");
 	const [assetType, setAssetType] = useState("");
+	const [assetIds, setAssetIds] = useState([]);
+	// const [selectedTicker, setSelectedTicker] = useState({});
 
-	const addAsset = ()=>{
+	const addAsset = async ()=>{
+		const stockData = {
+			"name":assetTicker
+		}
+
+		const response = await getStockDataAPI(stockData, dispatch);
+
+		if(response.status==200){
+			console.log("Response from getStockData API: ", response.data.data._id);
+			setAssetIds([...assetIds, response.data.data._id]);
+			NotificationManager.success('Title', "Portflio Asset Added");
+		}
+
 		var addedAsset = {
 			asset_name: assetName,
 			asset_value: assetValue,
-			asset_type: assetType
+			asset_type: assetType,
+			asset_ticker: assetTicker,
+			stock_id: response.data.data._id
 		}
 
 		setAssets([...assets, addedAsset]);
 		setAssetName("");
 		setAssetType("");
 		setAssetValue("");
+		setAssetTicker("");
 	}
 
 	const addPortfolio = async () => {
@@ -75,8 +94,12 @@ const Settings = () => {
 			tagline: portfolioTagline,
 			num_assets: noOfAsstes,
 			valuation: valuation,
-			assets: assets
+			assets: assets,
+			assetIds: assetIds,
+			costPortfolio: costOfPortfolio
 		};
+
+		console.log("Asset Ids: ", portfolioData);
 
 		const response = await addPortfolioAPI(portfolioData, dispatch);
 
@@ -90,6 +113,7 @@ const Settings = () => {
 	const [portfolioTagline, setPortfolioTagline] = useState("");
 	const [noOfAsstes, setNoOfAssets] = useState("");
 	const [valuation, setValuation] = useState("");
+	const [costOfPortfolio, setCostOfPortfolio] = useState("");
 
 	return (
 		<>
@@ -210,6 +234,33 @@ const Settings = () => {
 								/>
 							</FormControl>
 						</Flex>
+
+						<Flex justifyContent="space-between" align="center" mb="24px">
+							<FormControl display="flex" flexDirection="column">
+								<FormLabel
+									htmlFor="remember-login"
+									mb="0"
+									fontWeight="normal"
+									color={textColor}
+									fontSize="sm"
+								>
+									Cost of Portfolio (hbar)
+								</FormLabel>
+								<Input
+									isRequired={true}
+									variant="auth"
+									fontSize="sm"
+									type="email"
+									placeholder=""
+									mb="24px"
+									fontWeight="500"
+									size="lg"
+									onChange={(event) => {
+										setCostOfPortfolio(event.target.value);
+									}}
+								/>
+							</FormControl>
+						</Flex>
 					</Flex>
 				</Card>
 				<Flex px='25px' justify='space-between' mb='20px' align='center'>
@@ -230,6 +281,22 @@ const Settings = () => {
 					mb="25px"
 					overflowX={{ sm: "scroll", lg: "hidden" }}>
 					<Flex px='25px' justify='space-between' align='center' w="100%">
+					<Flex justifyContent="space-between" align="center" >
+							<FormControl display="flex" flexDirection="column">
+								<FormLabel
+									htmlFor="remember-login"
+									mb="0"
+									fontWeight="normal"
+									color={textColor}
+									fontSize="sm"
+								>
+									Asset Ticker
+								</FormLabel>
+								<Text color={textColor} fontSize='sm' fontWeight='700'>
+									{asset.asset_ticker}
+								</Text>
+							</FormControl>
+						</Flex>
 						<Flex justifyContent="space-between" align="center" >
 							<FormControl display="flex" flexDirection="column">
 								<FormLabel
@@ -288,7 +355,7 @@ const Settings = () => {
 						mb="25px"
 						overflowX={{ sm: "scroll", lg: "hidden" }}>
 						<Flex px='25px' justify='space-between' align='center' w="100%">
-							<Flex justifyContent="space-between" align="center" >
+							<Flex justifyContent="space-between" align="center" mb="24px" w="20%">
 								<FormControl display="flex" flexDirection="column">
 									<FormLabel
 										htmlFor="remember-login"
@@ -299,7 +366,30 @@ const Settings = () => {
 									>
 										Asset Name
 									</FormLabel>
-									<Input
+									<Select variant="auth"
+										fontSize="sm"
+										ms={{ base: "0px", md: "0px" }}
+										type="email"
+										placeholder=""
+										mb="24px"
+										fontWeight="500"
+										w="100%"
+										style={{max_width:"30px"}}
+										onChange={(event)=>{
+											// setSelectedTicker(event.target.value);
+											console.log("data from dropdown: ", event.target.value.split(','));
+											setAssetName(event.target.value.split(',')[0]);
+											setAssetTicker(event.target.value.split(',')[1]);
+										}}
+										>
+										{
+											tickers.map((ticker)=>{
+												return (<option value={[ticker.name,ticker.ticker]} w="30px">{ticker.name}</option>);
+											})
+										}
+									</Select>
+									
+									{/* <Input
 										isRequired={true}
 										variant="auth"
 										fontSize="sm"
@@ -313,7 +403,7 @@ const Settings = () => {
 										onChange={(event) => {
 											setAssetName(event.target.value);
 										}}
-									/>
+									/> */}
 								</FormControl>
 							</Flex>
 							<Flex justifyContent="space-between" align="center" mb="24px">
@@ -414,4 +504,13 @@ const Settings = () => {
 }
 
 
-export default Settings;
+
+const mapStateToProps = (state) => {
+	// console.log("State:", state);
+	return {
+		// To get the list of employee details from store
+		state: state,
+	};
+};
+
+export default connect(mapStateToProps, null)(Settings);

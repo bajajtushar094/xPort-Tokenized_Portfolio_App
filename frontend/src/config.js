@@ -11,7 +11,10 @@ export const config = ()=>{
             'login':`${LOCAL_SERVER_URL}/auth/login`,
             'getAllPortfolio':`${LOCAL_SERVER_URL}/portfolio`,
             'addPortfolio':`${LOCAL_SERVER_URL}/portfolio/addPortfolio`,
-            'additionalUserInfo':`${LOCAL_SERVER_URL}/auth/additionalUserInfo`
+            'additionalUserInfo':`${LOCAL_SERVER_URL}/auth/additionalUserInfo`,
+            'getStockData':`${LOCAL_SERVER_URL}/stockData`,
+            "getChartValues":`${LOCAL_SERVER_URL}/stockData/getChartValues`,
+            'getTickers':`${LOCAL_SERVER_URL}/stockData/getTickers`
         }
     }
 

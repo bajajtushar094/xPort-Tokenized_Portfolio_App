@@ -26,7 +26,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEyeCloseLine } from "react-icons/ri";
 
-import { registerUserAPI, loginUserAPI } from "actions/action";
+import { registerUserAPI, loginUserAPI, getTickersAPI } from "actions/action";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
@@ -63,17 +63,6 @@ const SignIn = () => {
 		}
 	}
 
-	// useEffect(() => { 
-	// 	const registerUser = async () => {
-	// 		const data = await registerUserAPI(
-	// 			{ mobile: "6900616140", password: 'password'},
-	// 			dispatch
-	// 		);
-	// 	}
-
-	// 	registerUser();
-
-	//  }, []);
 	return (
 		<DefaultAuth illustrationBackground={illustration} image={illustration}>
 			<Flex

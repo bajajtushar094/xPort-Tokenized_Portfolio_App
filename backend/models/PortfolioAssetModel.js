@@ -18,6 +18,10 @@ const PortfolioAsset = new Schema({
 		type: Number,
 		required: true,
 	},
+	stock_id: {
+		type: Schema.Types.ObjectId,
+		ref: "stockData"
+	}
 });
 
 module.exports = model("portfolioAsset", PortfolioAsset);

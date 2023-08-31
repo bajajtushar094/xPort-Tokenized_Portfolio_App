@@ -52,3 +52,6 @@ const getPortfolioValue = (body) => {
 
 	return total;
 };
+
+
+module.exports = {getPortfolioValue};

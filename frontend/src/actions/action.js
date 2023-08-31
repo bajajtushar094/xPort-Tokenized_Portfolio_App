@@ -128,3 +128,72 @@ export const additionalUserInfoAPI = async (userData, dispatch) => {
         console.log("Error from addPortfolio API: ", err);
     }
 }
+
+export const getStockDataAPI = async (stockData, dispatch) => {
+    const configHeaders = localStorage.getItem('authTokens')?{
+        headers: {
+            'x-access-token': localStorage.getItem('authTokens')
+        }
+    }:"";
+
+    try{
+        const response = await axios.post(config().getStockData, stockData, configHeaders);
+
+        if(response.status==200){
+            console.log("Response from getStockData API: ", response);
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from getStockData API: ", err);
+    }
+}
+
+export const getChartValuesAPI = async (data, dispatch) => {
+    const configHeaders = localStorage.getItem('authTokens')?{
+        headers: {
+            'x-access-token': localStorage.getItem('authTokens')
+        }
+    }:"";
+
+    try{
+        const response = await axios.post(config().getChartValues, data, configHeaders);
+
+        if(response.status==200){
+            console.log("Response from getChartValues API: ", response);
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from getChartValuesAPI: ", err);
+    }
+} 
+
+export const getTickersAPI = async (dispatch) => {
+    const configHeaders = localStorage.getItem('authTokens')?{
+        headers: {
+            'x-access-token': localStorage.getItem('authTokens')
+        }
+    }:"";
+
+
+    try{
+        const response = await axios.get(config().getTickers, configHeaders);
+
+        if(response.status==200){
+            console.log("Response from Ticker API: ", response);
+
+            dispatch({
+                type:'TICKERS',
+                tickers: response.data.data
+            })
+        }
+
+        return response;
+    }
+    catch(err){
+        console.log("Error from ticker API: ", err);
+    }
+}
